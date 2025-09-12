@@ -1,6 +1,8 @@
 
-import { Grid, GridItem, Show, useBreakpointValue } from "@chakra-ui/react"
+import { Grid, GridItem, Text, useBreakpointValue } from "@chakra-ui/react"
+import NavBar from "./components/ui/NavBar";
 
+//https://www.themoviedb.org/
 
 function App() {
 
@@ -10,8 +12,8 @@ function App() {
     base:`"nav" "main"`,
     lg:`"nav nav" "aside main"` 
   }}>
-  <GridItem area='nav' bg='coral' >
-    Nav
+  <GridItem area='nav'>
+    <NavBar/>
   </GridItem>
   {showAside && (
       <GridItem area="aside" bg="gold">
