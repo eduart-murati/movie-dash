@@ -1,5 +1,6 @@
 
-import { Grid, GridItem, Text, useBreakpointValue } from "@chakra-ui/react"
+import { Grid, GridItem, useBreakpointValue  } from "@chakra-ui/react"
+
 import NavBar from "./components/ui/NavBar";
 
 //https://www.themoviedb.org/
