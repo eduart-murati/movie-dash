@@ -1,8 +1,8 @@
 import { HStack, Image, Button } from '@chakra-ui/react'
 import { useTheme } from "next-themes"  
-import logo from '../../assets/logo-512.png'
+import logo from '../assets/logo-512.png'
 import { FaMoon, FaSun } from 'react-icons/fa'
-import ColorModeSwitch from '../ColorModeSwitch'
+import ColorModeSwitch from './ColorModeSwitch'
 
 const NavBar = () => {
 

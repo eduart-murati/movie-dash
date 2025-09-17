@@ -1,7 +1,8 @@
 
 import { Grid, GridItem, useBreakpointValue  } from "@chakra-ui/react"
 
-import NavBar from "./components/ui/NavBar";
+import NavBar from "./components/NavBar";
+import MovieGrid from "./components/MovieGrid";
 
 //https://www.themoviedb.org/
 
@@ -22,7 +23,7 @@ function App() {
       </GridItem>
   )}
   <GridItem area='main' >
-    Main
+    <MovieGrid/>
   </GridItem> 
 </Grid>
 }
