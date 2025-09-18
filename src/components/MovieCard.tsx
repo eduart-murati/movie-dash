@@ -12,6 +12,12 @@ const MovieCard = ({movie}: Props) => {
     }
 
     const imageUrl = `https://image.tmdb.org/t/p/w342/${movie.poster_path}`;
+
+    const formattedReleaseDate = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    }).format(new Date(movie.release_date));
   
     return (
     <Card.Root borderRadius={10} >
@@ -23,7 +29,10 @@ const MovieCard = ({movie}: Props) => {
         </CardBody>
         <CardFooter>
             <Heading fontSize='1xl'>{movie.title}</Heading>
-      </CardFooter>
+        </CardFooter>
+        <CardFooter>
+            <Heading fontSize='sm'>{formattedReleaseDate}</Heading>
+        </CardFooter>
     </Card.Root>
   )
 }
