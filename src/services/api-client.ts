@@ -1,9 +1,10 @@
-import axios from "axios";
 
-export default axios.create({
-    baseURL:'https://api.themoviedb.org/3/discover/',
-    headers: {
-        accept: 'application/json',    
-        Authorization: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' 
-  },
-})
+
+
+
+// export default axios.create({
+//     baseURL:'https://api.themoviedb.org/3/discover/',
+//     headers: { 
+//         Authorization: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX' 
+//   },
+// })
