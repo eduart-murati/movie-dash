@@ -22,7 +22,6 @@ const useMovies = () => {
   useEffect( () => {
     const controller = new AbortController;
 
-
     apiClient.get<FetchMovieResponse>('/movie', {signal: controller.signal })
     .then ((res) => setMovies(res.data.results))
     .catch((err) => {
