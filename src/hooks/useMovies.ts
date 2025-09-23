@@ -12,7 +12,7 @@ export interface Movie{
 }
 
 interface FetchMovieResponse {
-    vote_count: number;
+    // vote_count: number;
     results: Movie[];
 }
 
@@ -25,7 +25,7 @@ const useMovies = () => {
     const controller = new AbortController;
 
     setLoading(true);
-    apiClient.get<FetchMovieResponse>('/movie', {signal: controller.signal })
+    apiClient.get<FetchMovieResponse>('/discover/movie', {signal: controller.signal })
     .then ((res) => {
       setMovies(res.data.results);
       setLoading(false);
