@@ -8,6 +8,7 @@ export interface Movie{
     poster_path: string;
     vote_average: number;
     release_date: string;
+    vote_count: number;
 }
 
 interface FetchMovieResponse {
