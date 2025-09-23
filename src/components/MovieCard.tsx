@@ -23,7 +23,7 @@ const MovieCard = ({movie}: Props) => {
     }).format(new Date(movie.release_date));
   
     return (
-    <Card.Root width='400px' borderRadius="lg" overflow="hidden"  >   {/* maxW="400px" */}
+    <Card.Root>   {/* maxW="400px" */}
         <AspectRatio ratio={2 / 3}>
             <Image src={imageUrl} alt={movie.title} objectFit="cover" />
         </AspectRatio>
@@ -34,13 +34,12 @@ const MovieCard = ({movie}: Props) => {
             </HStack>           
         </CardBody>
 
-        {/* <CardFooter > */}
          <VStack align="flex-start" h="100%" justifyContent="flex-start" gap={0} px={4}>
             <Text
                 lineClamp={2}
                 fontSize="2xl"
                 fontWeight="bold"
-                _hover={{ color: 'blue.300', cursor: 'pointer' }}
+                _hover={{ color: 'blue.300', cursor: 'pointer' }} 
             >
                 {movie.title}
             </Text>
@@ -48,7 +47,6 @@ const MovieCard = ({movie}: Props) => {
                 {formattedReleaseDate}
             </Text>
          </VStack>
-        {/* </CardFooter> */}
 
     </Card.Root>
   )
