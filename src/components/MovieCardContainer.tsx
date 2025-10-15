@@ -7,7 +7,7 @@ interface Props {
 
 const MovieCardContainer = ({ children }: Props) => {
   return (
-    <Box width="400px" borderRadius="lg" overflow="hidden">
+    <Box width="100%" borderRadius="lg" overflow="hidden">
       {children}
     </Box>
   );
