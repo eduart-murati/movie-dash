@@ -1,5 +1,5 @@
 import useGenres from "@/hooks/useGenres";
-import { Box, VStack, HStack, Icon, Text } from "@chakra-ui/react";
+import { Box, VStack, HStack, Icon, Text, Spinner } from "@chakra-ui/react";
 
 import {
   FaTheaterMasks,
@@ -48,7 +48,11 @@ const genreIconMap: { [key: number]: IconType } = {
 };
 
 const GenreList = () => {
-  const { data } = useGenres();
+  const { data, isLoading, error } = useGenres();
+
+  if (error) return null;
+  if (isLoading) return <Spinner />;
+
   return (
     // Përdorim VStack si zëvendësues për List
     <VStack as="ul" align="stretch">
