@@ -1,5 +1,5 @@
 import apiClient from "@/services/api-client";
-import { CanceledError } from "axios";
+import { CanceledError, type AxiosRequestConfig } from "axios";
 import { useEffect, useState } from "react";
 
 
@@ -9,7 +9,7 @@ interface FetchResponse<T> {
     genres: T[];    // '/genre/movie/list' ka strukturen { "genres": [...] } // => Fusha e kategorive eshte 'genres'
 }
 
-const useData =<T>(endpoint: string) => {
+const useData =<T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?:any[]) => {
   const [data, setData] = useState<T[]>([]);  
     const [error, setError] = useState('');
     const [isLoading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const useData =<T>(endpoint: string) => {
       const controller = new AbortController;
   
       setLoading(true);
-      apiClient.get<FetchResponse<T>>(endpoint, {signal: controller.signal }) 
+      apiClient.get<FetchResponse<T>>(endpoint,  {signal: controller.signal, ...requestConfig }) 
       .then ((res) => {
         const receivedData = res.data.results || res.data.genres;
 
@@ -37,7 +37,7 @@ const useData =<T>(endpoint: string) => {
   
       return() => controller.abort();
   
-    }, [endpoint]);
+    }, deps? [...deps]: []);
   
     return {data, error, isLoading}; 
     console.log (data) 
