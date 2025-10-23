@@ -49,9 +49,10 @@ const genreIconMap: { [key: number]: IconType } = {
 
 interface Props {
   onSelectGenre: (genre: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
-const GenreList = ({ onSelectGenre }: Props) => {
+const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data, isLoading, error } = useGenres();
 
   if (error) return null;
@@ -60,26 +61,35 @@ const GenreList = ({ onSelectGenre }: Props) => {
   return (
     // Përdorim VStack si zëvendësues për List
     <VStack as="ul" align="stretch">
-      {data.map((genre) => (
-        // Përdorim Box si zëvendësues për ListItem, me 'as="li"'
-        <Box as="li" key={genre.id} paddingY="5px">
-          <HStack>
-            <Icon
-              as={genreIconMap[genre.id]}
-              color="gray.500"
-              boxSize="32px"
-              borderRadius={8}
-            />
-            <Button
-              onClick={() => onSelectGenre(genre)}
-              fontSize="lg"
-              variant="plain"
-            >
-              {genre.name}
-            </Button>
-          </HStack>
-        </Box>
-      ))}
+      {data.map((genre) => {
+        const isSelected = genre.id === selectedGenre?.id;
+        return (
+          // Përdorim Box si zëvendësues për ListItem, me 'as="li"'
+          <Box as="li" key={genre.id} paddingY="5px">
+            <HStack>
+              <Icon
+                as={genreIconMap[genre.id]}
+                color={isSelected ? "blue.400" : "gray.500"}
+                boxSize="32px"
+                borderRadius={8}
+                transition="color 0.2s ease"
+              />
+              <Button
+                fontWeight={isSelected ? "bold" : "normal"}
+                color={isSelected ? "blue.400" : "gray.500"}
+                onClick={() => onSelectGenre(genre)}
+                fontSize="lg"
+                variant="ghost"
+                _hover={{
+                  textDecoration: "underline",
+                }}
+              >
+                {genre.name}
+              </Button>
+            </HStack>
+          </Box>
+        );
+      })}
     </VStack>
   );
 };

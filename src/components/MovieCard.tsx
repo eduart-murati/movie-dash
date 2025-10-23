@@ -24,11 +24,17 @@ const MovieCard = ({ movie }: Props) => {
     ? `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
     : "https://via.placeholder.com/342x513.png?text=No+Image";
 
-  const formattedReleaseDate = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(new Date(movie.release_date));
+  function formatReleaseDate(dateString?: string) {
+    if (!dateString) return "Unknown date";
+    const date = new Date(dateString);
+    return isNaN(date.getTime())
+      ? "Unknown date"
+      : new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }).format(date);
+  }
 
   return (
     <Card.Root>
@@ -52,14 +58,14 @@ const MovieCard = ({ movie }: Props) => {
       >
         <Text
           lineClamp={2}
-          fontSize="2xl"
+          fontSize="xl"
           fontWeight="bold"
           _hover={{ color: "blue.300", cursor: "pointer" }}
         >
           {movie.title}
         </Text>
-        <Text fontSize="lg" color="gray.500">
-          {formattedReleaseDate}
+        <Text fontSize="sm" color="gray.500">
+          {formatReleaseDate(movie.release_date)}
         </Text>
       </VStack>
     </Card.Root>
