@@ -1,5 +1,6 @@
 {
   "results": [
+    { "id": "all", "name": "All" },  
     { "id": "popular", "name": "Most Popular" },
     { "id": "top_rated", "name": "Top Rated" },
     { "id": "upcoming", "name": "Upcoming" },

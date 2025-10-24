@@ -1,8 +1,12 @@
-import useMovieList from "@/hooks/useMovieList";
+import useMovieList, { type MovieList } from "@/hooks/useMovieList";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 
-const MovieListSelector = () => {
+interface Props {
+  onSelectedMovieList: (movielist: MovieList) => void;
+}
+
+const MovieListSelector = ({ onSelectedMovieList }: Props) => {
   const { data, error, isLoading } = useMovieList();
 
   if (isLoading) return <p>Loading...</p>;
@@ -19,7 +23,11 @@ const MovieListSelector = () => {
         <Menu.Positioner>
           <Menu.Content>
             {data.map((movielist) => (
-              <Menu.Item key={movielist.id} value={movielist.name}>
+              <Menu.Item
+                onClick={() => onSelectedMovieList(movielist)}
+                key={movielist.id}
+                value={movielist.name}
+              >
                 {movielist.name}
               </Menu.Item>
             ))}

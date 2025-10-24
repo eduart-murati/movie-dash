@@ -6,6 +6,7 @@ import GenreList from "./components/GenreList";
 import type { Genre } from "./hooks/useGenres";
 import { useState } from "react";
 import MovieListSelector from "./components/MovieListSelector";
+import type { MovieList } from "./hooks/useMovieList";
 
 //https://www.themoviedb.org/
 
@@ -13,6 +14,10 @@ function App() {
   const showAside = useBreakpointValue({ lg: true });
 
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+
+  const [selectedMovieList, setSelectedMovieList] = useState<MovieList | null>(
+    null
+  );
 
   return (
     <Grid
@@ -37,8 +42,13 @@ function App() {
         </GridItem>
       )}
       <GridItem area="main">
-        <MovieListSelector />
-        <MovieGrid selectedGenre={selectedGenre} />
+        <MovieListSelector
+          onSelectedMovieList={(movielist) => setSelectedMovieList(movielist)}
+        />
+        <MovieGrid
+          selectedMovieList={selectedMovieList}
+          selectedGenre={selectedGenre}
+        />
       </GridItem>
     </Grid>
   );

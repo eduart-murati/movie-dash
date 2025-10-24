@@ -4,13 +4,18 @@ import MovieCard from "./MovieCard";
 import MovieCardSceleton from "./MovieCardSkeleton";
 import MovieCardContainer from "./MovieCardContainer";
 import type { Genre } from "@/hooks/useGenres";
+import type { MovieList } from "@/hooks/useMovieList";
 
 interface Props {
   selectedGenre: Genre | null;
+  selectedMovieList: MovieList | null;
 }
 
-const MovieGrid = ({ selectedGenre }: Props) => {
-  const { data, error, isLoading } = useMovies(selectedGenre);
+const MovieGrid = ({ selectedGenre, selectedMovieList }: Props) => {
+  const { data, error, isLoading } = useMovies(
+    selectedGenre,
+    selectedMovieList
+  );
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (

@@ -1,6 +1,6 @@
 import useData from "./useData";
 
-interface MovieList {
+export interface MovieList {
     id: string;
     name: string;
     slug: string;
