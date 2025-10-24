@@ -5,6 +5,7 @@ import MovieGrid from "./components/MovieGrid";
 import GenreList from "./components/GenreList";
 import type { Genre } from "./hooks/useGenres";
 import { useState } from "react";
+import MovieListSelector from "./components/MovieListSelector";
 
 //https://www.themoviedb.org/
 
@@ -36,6 +37,7 @@ function App() {
         </GridItem>
       )}
       <GridItem area="main">
+        <MovieListSelector />
         <MovieGrid selectedGenre={selectedGenre} />
       </GridItem>
     </Grid>
