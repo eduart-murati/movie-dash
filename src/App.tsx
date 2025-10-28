@@ -10,14 +10,19 @@ import type { MovieList } from "./hooks/useMovieList";
 
 //https://www.themoviedb.org/
 
+export interface MovieQuery {
+  genre: Genre | null;
+  movielist: MovieList | null;
+}
+
 function App() {
   const showAside = useBreakpointValue({ lg: true });
 
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-
-  const [selectedMovieList, setSelectedMovieList] = useState<MovieList | null>(
-    null
-  );
+  const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery);
+  // const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  // const [selectedMovieList, setSelectedMovieList] = useState<MovieList | null>(
+  //   null
+  // );
 
   return (
     <Grid
@@ -36,18 +41,21 @@ function App() {
       {showAside && (
         <GridItem area="aside" padding={5}>
           <GenreList
-            selectedGenre={selectedGenre}
-            onSelectGenre={(genre) => setSelectedGenre(genre)}
+            selectedGenre={movieQuery.genre}
+            onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
           />
         </GridItem>
       )}
       <GridItem area="main">
         <MovieListSelector
-          onSelectedMovieList={(movielist) => setSelectedMovieList(movielist)}
+          onSelectedMovieList={(movielist) =>
+            setMovieQuery({ ...movieQuery, movielist })
+          }
         />
         <MovieGrid
-          selectedMovieList={selectedMovieList}
-          selectedGenre={selectedGenre}
+          movieQuery={movieQuery}
+          // selectedMovieList={movieQuery.movielist}
+          // selectedGenre={movieQuery.genre}
         />
       </GridItem>
     </Grid>

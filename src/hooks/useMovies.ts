@@ -1,6 +1,5 @@
+import type { MovieQuery } from "@/App";
 import useData from "./useData";
-import type { Genre } from "./useGenres";
-import type { MovieList } from "./useMovieList";
 
 export interface Movie{
     id: number;
@@ -12,23 +11,21 @@ export interface Movie{
 }
 
 const useMovies = (
-  selectedGenre: Genre | null,
-  selectedMovieList: MovieList | null
+  movieQuery: MovieQuery
+  // selectedGenre: Genre | null,
+  // selectedMovieList: MovieList | null
 ) => {
   // logjikë për të përcaktuar endpoint
   let endpoint = '/discover/movie'; 
 
-  if (selectedMovieList && selectedMovieList.id !== 'all') {
-    endpoint = `/movie/${selectedMovieList.id}`; // p.sh. /movie/top_rated
+  if (movieQuery.movielist && movieQuery.movielist?.id !== 'all') {
+    endpoint = `/movie/${movieQuery.movielist?.id}`; // p.sh. /movie/top_rated
   }
 
   // parametri me genre filter
-  const params = selectedGenre ? { with_genres: selectedGenre.id } : {};
+  const params = movieQuery.genre ? { with_genres: movieQuery.genre.id } : {};
 
-  return useData<Movie>(endpoint, { params }, [
-    selectedGenre?.id,
-    selectedMovieList?.id
-  ]);
+  return useData<Movie>(endpoint, { params }, [movieQuery]);
 };
 
 // const useMovies = (

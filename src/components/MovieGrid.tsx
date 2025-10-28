@@ -3,18 +3,19 @@ import { SimpleGrid, Text } from "@chakra-ui/react";
 import MovieCard from "./MovieCard";
 import MovieCardSceleton from "./MovieCardSkeleton";
 import MovieCardContainer from "./MovieCardContainer";
-import type { Genre } from "@/hooks/useGenres";
-import type { MovieList } from "@/hooks/useMovieList";
+import type { MovieQuery } from "@/App";
 
 interface Props {
-  selectedGenre: Genre | null;
-  selectedMovieList: MovieList | null;
+  movieQuery: MovieQuery;
+  // selectedGenre: Genre | null;
+  // selectedMovieList: MovieList | null;
 }
 
-const MovieGrid = ({ selectedGenre, selectedMovieList }: Props) => {
+const MovieGrid = ({ movieQuery }: Props) => {
   const { data, error, isLoading } = useMovies(
-    selectedGenre,
-    selectedMovieList
+    movieQuery
+    // selectedGenre,
+    // selectedMovieList
   );
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
