@@ -1,5 +1,4 @@
-import { Grid, GridItem, useBreakpointValue } from "@chakra-ui/react";
-
+import { Grid, GridItem, HStack, useBreakpointValue } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenreList from "./components/GenreList";
@@ -7,6 +6,7 @@ import type { Genre } from "./hooks/useGenres";
 import { useState } from "react";
 import MovieListSelector from "./components/MovieListSelector";
 import type { MovieList } from "./hooks/useMovieList";
+import SortSelctor from "./components/SortSelctor";
 
 //https://www.themoviedb.org/
 
@@ -19,10 +19,6 @@ function App() {
   const showAside = useBreakpointValue({ lg: true });
 
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery);
-  // const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  // const [selectedMovieList, setSelectedMovieList] = useState<MovieList | null>(
-  //   null
-  // );
 
   return (
     <Grid
@@ -47,16 +43,16 @@ function App() {
         </GridItem>
       )}
       <GridItem area="main">
-        <MovieListSelector
-          onSelectedMovieList={(movielist) =>
-            setMovieQuery({ ...movieQuery, movielist })
-          }
-        />
-        <MovieGrid
-          movieQuery={movieQuery}
-          // selectedMovieList={movieQuery.movielist}
-          // selectedGenre={movieQuery.genre}
-        />
+        <HStack gap={5} paddingLeft={5} marginBottom={5}>
+          <MovieListSelector
+            onSelectedMovieList={(movielist) =>
+              setMovieQuery({ ...movieQuery, movielist })
+            }
+          />
+          <SortSelctor />
+        </HStack>
+
+        <MovieGrid movieQuery={movieQuery} />
       </GridItem>
     </Grid>
   );

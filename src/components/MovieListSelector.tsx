@@ -16,7 +16,7 @@ const MovieListSelector = ({ onSelectedMovieList }: Props) => {
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button as={Button} size="sm">
-          Open <BsChevronDown />
+          Movie Lists <BsChevronDown />
         </Button>
       </Menu.Trigger>
       <Portal>
