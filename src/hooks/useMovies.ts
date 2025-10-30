@@ -12,29 +12,25 @@ export interface Movie{
 
 const useMovies = (
   movieQuery: MovieQuery
-  // selectedGenre: Genre | null,
-  // selectedMovieList: MovieList | null
 ) => {
-  // logjikë për të përcaktuar endpoint
+  // përcaktimi i endpoint
   let endpoint = '/discover/movie'; 
 
   if (movieQuery.movielist && movieQuery.movielist?.id !== 'all') {
     endpoint = `/movie/${movieQuery.movielist?.id}`; // p.sh. /movie/top_rated
   }
 
-  // parametri me genre filter
-  const params = movieQuery.genre ? { with_genres: movieQuery.genre.id } : {};
+  const params:{[key: string]: any}={};
+
+  if (movieQuery.genre) {
+    params.with_genres = movieQuery.genre.id;
+  }
+
+  if (movieQuery.sortOrder){
+    params.sort_by = movieQuery.sortOrder;
+  }
 
   return useData<Movie>(endpoint, { params }, [movieQuery]);
 };
-
-// const useMovies = (
-//         selectedGenre: Genre | null, 
-//         selectedMovieList: MovieList | null
-//     ) => useData<Movie>('/discover/movie', selectedGenre  ? {
-//     params: {
-//         with_genres: selectedGenre?.id, 
-//         movielist: selectedMovieList?.id}} : {}, [
-//     selectedGenre?.id, selectedMovieList?.id])
 
 export default useMovies;

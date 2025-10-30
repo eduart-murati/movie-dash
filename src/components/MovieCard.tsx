@@ -16,13 +16,14 @@ interface Props {
 }
 
 const MovieCard = ({ movie }: Props) => {
-  if (!movie.poster_path) {
-    return null; // Ose një placeholder
-  }
+  const isPosterAvailable = !!movie.poster_path;
+  const TMDB_NO_IMAGE_URL =
+    "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
+  // https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg
 
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
-    : "https://via.placeholder.com/342x513.png?text=No+Image";
+    : TMDB_NO_IMAGE_URL;
 
   function formatReleaseDate(dateString?: string) {
     if (!dateString) return "Unknown date";
@@ -41,7 +42,13 @@ const MovieCard = ({ movie }: Props) => {
       {" "}
       {/* maxW="400px" */}
       <AspectRatio ratio={2 / 3}>
-        <Image src={imageUrl} alt={movie.title} objectFit="cover" />
+        <Image
+          src={imageUrl}
+          alt={movie.title}
+          objectFit={isPosterAvailable ? "cover" : "contain"}
+          boxSize={isPosterAvailable ? "auto" : "50%"}
+          p={isPosterAvailable ? 0 : 4}
+        />
       </AspectRatio>
       <CardBody>
         <HStack justifyContent="space-between">

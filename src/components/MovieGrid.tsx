@@ -7,16 +7,10 @@ import type { MovieQuery } from "@/App";
 
 interface Props {
   movieQuery: MovieQuery;
-  // selectedGenre: Genre | null;
-  // selectedMovieList: MovieList | null;
 }
 
 const MovieGrid = ({ movieQuery }: Props) => {
-  const { data, error, isLoading } = useMovies(
-    movieQuery
-    // selectedGenre,
-    // selectedMovieList
-  );
+  const { data, error, isLoading } = useMovies(movieQuery);
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (

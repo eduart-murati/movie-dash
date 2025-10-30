@@ -13,6 +13,7 @@ import SortSelctor from "./components/SortSelctor";
 export interface MovieQuery {
   genre: Genre | null;
   movielist: MovieList | null;
+  sortOrder: string;
 }
 
 function App() {
@@ -49,7 +50,12 @@ function App() {
               setMovieQuery({ ...movieQuery, movielist })
             }
           />
-          <SortSelctor />
+          <SortSelctor
+            sortOrder={movieQuery.sortOrder}
+            onSelectSortOrder={(sortOrder) =>
+              setMovieQuery({ ...movieQuery, sortOrder })
+            }
+          />
         </HStack>
 
         <MovieGrid movieQuery={movieQuery} />
