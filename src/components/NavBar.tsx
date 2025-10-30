@@ -1,27 +1,27 @@
-import { HStack, Image, Button } from '@chakra-ui/react'
-import { useTheme } from "next-themes"  
-import logo from '../assets/logo-512.png'
-import { FaMoon, FaSun } from 'react-icons/fa'
-import ColorModeSwitch from './ColorModeSwitch'
+import { HStack, Image, Button } from "@chakra-ui/react";
+import { useTheme } from "next-themes";
+import logo from "../assets/logo-512.png";
+import { FaMoon, FaSun } from "react-icons/fa";
+import ColorModeSwitch from "./ColorModeSwitch";
+import SearchInput from "./SearchInput";
 
 const NavBar = () => {
-
-  const { theme, setTheme } = useTheme()  
+  const { theme, setTheme } = useTheme();
 
   return (
-    <HStack justifyContent='space-between'  > 
-        <Image src={logo} width='55px' height='40px' />
+    <HStack justifyContent="space-between">
+      <Image src={logo} width="55px" height="40px" />
 
-        <HStack gap='4'> 
-          <ColorModeSwitch theme={theme} setTheme={setTheme}/>
-          <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-            {theme === 'dark' ? <FaSun /> : <FaMoon />}
-          </Button>
-       </HStack>
+      <SearchInput />
 
-    </HStack>   
-    
-  )
-}
+      <HStack gap="4">
+        <ColorModeSwitch theme={theme} setTheme={setTheme} />
+        <Button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+          {theme === "dark" ? <FaSun /> : <FaMoon />}
+        </Button>
+      </HStack>
+    </HStack>
+  );
+};
 
-export default NavBar
+export default NavBar;

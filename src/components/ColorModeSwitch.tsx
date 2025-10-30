@@ -1,4 +1,4 @@
-import { HStack, Switch, Text } from '@chakra-ui/react'
+import { HStack, Switch, Text } from "@chakra-ui/react";
 
 interface ColorModeSwitchProps {
   theme: string | undefined;
@@ -6,13 +6,13 @@ interface ColorModeSwitchProps {
 }
 
 const ColorModeSwitch = ({ theme, setTheme }: ColorModeSwitchProps) => {
-
   return (
     <HStack>
-      <Switch.Root colorPalette='green'
-        checked={theme === 'dark'}
-        onCheckedChange={(e) => setTheme(e.checked ? "dark" : "light")
-      }>
+      <Switch.Root
+        colorPalette="green"
+        checked={theme === "dark"}
+        onCheckedChange={(e) => setTheme(e.checked ? "dark" : "light")}
+      >
         <Switch.HiddenInput />
         <Switch.Control>
           <Switch.Thumb />
@@ -20,12 +20,11 @@ const ColorModeSwitch = ({ theme, setTheme }: ColorModeSwitchProps) => {
         <Switch.Label />
       </Switch.Root>
 
-      <Text>
-        {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+      <Text whiteSpace={"nowrap"}>
+        {theme === "dark" ? "Dark Mode" : "Light Mode"}
       </Text>
-
     </HStack>
-  )
-}
+  );
+};
 
-export default ColorModeSwitch
+export default ColorModeSwitch;
