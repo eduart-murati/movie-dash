@@ -14,12 +14,18 @@ export interface MovieQuery {
   genre: Genre | null;
   movielist: MovieList | null;
   sortOrder: string;
+  searchText: string;
 }
 
 function App() {
   const showAside = useBreakpointValue({ lg: true });
-
-  const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery);
+  const [searchText, setSearchText] = useState("");
+  const [movieQuery, setMovieQuery] = useState<MovieQuery>({
+    genre: null,
+    movielist: null,
+    sortOrder: "",
+    searchText: "",
+  } as MovieQuery);
 
   return (
     <Grid
@@ -33,13 +39,26 @@ function App() {
       }}
     >
       <GridItem area="nav" padding={5}>
-        <NavBar />
+        <NavBar
+          searchText={searchText}
+          onSearchChange={(value: string) => setSearchText(value)}
+          onSearchSubmit={(text) =>
+            setMovieQuery({
+              ...movieQuery,
+              searchText: text,
+              genre: null,
+              movielist: null,
+            })
+          }
+        />
       </GridItem>
       {showAside && (
         <GridItem area="aside" padding={5}>
           <GenreList
             selectedGenre={movieQuery.genre}
-            onSelectGenre={(genre) => setMovieQuery({ ...movieQuery, genre })}
+            onSelectGenre={(genre) =>
+              setMovieQuery({ ...movieQuery, genre, searchText: "" })
+            }
           />
         </GridItem>
       )}
@@ -49,12 +68,14 @@ function App() {
             onSelectedMovieList={(movielist) =>
               setMovieQuery({ ...movieQuery, movielist })
             }
+            isDisabled={!!searchText} // Çaktivizo kur ka kërkim
           />
           <SortSelctor
             sortOrder={movieQuery.sortOrder}
             onSelectSortOrder={(sortOrder) =>
               setMovieQuery({ ...movieQuery, sortOrder })
             }
+            isDisabled={!!searchText} // Çaktivizo kur ka kërkim
           />
         </HStack>
 

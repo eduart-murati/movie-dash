@@ -4,9 +4,10 @@ import { BsChevronDown } from "react-icons/bs";
 
 interface Props {
   onSelectedMovieList: (movielist: MovieList) => void;
+  isDisabled?: boolean;
 }
 
-const MovieListSelector = ({ onSelectedMovieList }: Props) => {
+const MovieListSelector = ({ onSelectedMovieList, isDisabled }: Props) => {
   const { data, error, isLoading } = useMovieList();
 
   if (isLoading) return <p>Loading...</p>;
@@ -15,7 +16,7 @@ const MovieListSelector = ({ onSelectedMovieList }: Props) => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button as={Button} size="sm">
+        <Button as={Button} size="sm" disabled={isDisabled}>
           Movie Lists <BsChevronDown />
         </Button>
       </Menu.Trigger>
@@ -27,6 +28,7 @@ const MovieListSelector = ({ onSelectedMovieList }: Props) => {
                 onClick={() => onSelectedMovieList(movielist)}
                 key={movielist.id}
                 value={movielist.name}
+                disabled={isDisabled}
               >
                 {movielist.name}
               </Menu.Item>

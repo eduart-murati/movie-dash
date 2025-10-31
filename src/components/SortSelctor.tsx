@@ -4,9 +4,10 @@ import { BsChevronDown } from "react-icons/bs";
 interface Props {
   onSelectSortOrder: (sortOrder: string) => void;
   sortOrder: string;
+  isDisabled?: boolean;
 }
 
-const SortSelctor = ({ onSelectSortOrder, sortOrder }: Props) => {
+const SortSelctor = ({ onSelectSortOrder, sortOrder, isDisabled }: Props) => {
   const sortOrders = [
     { value: "popularity.desc", label: "Popularity (Most Popular)" },
     { value: "vote_average.desc", label: "Rating (Highest Rated)" },
@@ -29,7 +30,7 @@ const SortSelctor = ({ onSelectSortOrder, sortOrder }: Props) => {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button as={Button} size="sm">
+        <Button as={Button} size="sm" disabled={isDisabled}>
           Order by: {currentSortOrder?.label || "Popularity (Most Popular)"}
           <BsChevronDown />
         </Button>
@@ -42,6 +43,7 @@ const SortSelctor = ({ onSelectSortOrder, sortOrder }: Props) => {
                 key={order.value}
                 onClick={() => onSelectSortOrder(order.value)}
                 value={order.value}
+                disabled={isDisabled}
               >
                 {order.label}
               </Menu.Item>

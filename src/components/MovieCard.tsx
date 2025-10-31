@@ -1,4 +1,3 @@
-import type { Movie } from "../hooks/useMovies";
 import {
   AspectRatio,
   Card,
@@ -7,9 +6,12 @@ import {
   Image,
   Text,
   VStack,
+  Button,
 } from "@chakra-ui/react";
 import MovieStarRating from "./MovieStarRating";
 import MovieVotingScore from "./MovieVotingScore";
+import useMovieTrailer from "../hooks/useMovieTrailer"; // Importoni hook-un për trailer
+import type { Movie } from "@/hooks/useMovies";
 
 interface Props {
   movie: Movie;
@@ -19,11 +21,12 @@ const MovieCard = ({ movie }: Props) => {
   const isPosterAvailable = !!movie.poster_path;
   const TMDB_NO_IMAGE_URL =
     "https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-grey-c2ebdbb057f2a7614185931650f8cee23fa137b93812ccb132b9df511df1cfac.svg";
-  // https://www.themoviedb.org/assets/2/v4/glyphicons/basic/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg
 
   const imageUrl = movie.poster_path
     ? `https://image.tmdb.org/t/p/w342/${movie.poster_path}`
     : TMDB_NO_IMAGE_URL;
+
+  const { trailer, loading, error } = useMovieTrailer({ movieId: movie.id });
 
   function formatReleaseDate(dateString?: string) {
     if (!dateString) return "Unknown date";
@@ -39,8 +42,6 @@ const MovieCard = ({ movie }: Props) => {
 
   return (
     <Card.Root>
-      {" "}
-      {/* maxW="400px" */}
       <AspectRatio ratio={2 / 3}>
         <Image
           src={imageUrl}
@@ -71,9 +72,36 @@ const MovieCard = ({ movie }: Props) => {
         >
           {movie.title}
         </Text>
-        <Text fontSize="sm" color="gray.500">
-          {formatReleaseDate(movie.release_date)}
-        </Text>
+
+        <HStack gap={5} justifyContent="space-between" w="100%">
+          <Text fontSize="sm" color="gray.500">
+            {formatReleaseDate(movie.release_date)}
+          </Text>
+          {/* Butoni për të hapur trailerin */}
+          <Button
+            height={5}
+            onClick={() => {
+              if (trailer) {
+                // Parametrat për dritaren popup
+                const width = 800;
+                const height = 450;
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+
+                // Hap dritaren popup për trailerin
+                window.open(
+                  `https://www.youtube.com/watch?v=${trailer.key}`,
+                  "_blank",
+                  `width=${width},height=${height},top=${top},left=${left},resizable=yes`
+                );
+              }
+            }}
+            colorScheme="blue"
+            disabled={!trailer}
+          >
+            Watch Trailer
+          </Button>
+        </HStack>
       </VStack>
     </Card.Root>
   );
