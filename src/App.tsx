@@ -75,7 +75,7 @@ function App() {
             onSelectSortOrder={(sortOrder) =>
               setMovieQuery({ ...movieQuery, sortOrder })
             }
-            isDisabled={!!searchText} // Çaktivizo kur ka kërkim
+            // isDisabled={!!searchText} // Çaktivizo kur ka kërkim
           />
         </HStack>
 

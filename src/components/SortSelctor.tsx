@@ -10,15 +10,16 @@ interface Props {
 const SortSelctor = ({ onSelectSortOrder, sortOrder, isDisabled }: Props) => {
   const sortOrders = [
     { value: "popularity.desc", label: "Popularity (Most Popular)" },
-    { value: "vote_average.desc", label: "Rating (Highest Rated)" },
+    // { value: "vote_average.desc", label: "Rating (Highest Rated)" },
+    // { value: "vote_count.desc", label: "Rating- Most Voted" },
+    // { value: "vote_count.asc", label: "Rating- Less Voted" },
     {
       value: "primary_release_date.desc",
-      label: "Release Date - Newest First",
+      label: "Release Date - Newest",
     },
-    { value: "primary_release_date.asc", label: "Release Date - Oldest First" },
-    { value: "vote_count.desc", label: "Rating- Most Voted" },
-    { value: "vote_count.asc", label: "Rating- Less Voted" },
+    { value: "primary_release_date.asc", label: "Release Date - Oldest" },
     { value: "title.asc", label: "Title (A-Z)" },
+    { value: "title.desc", label: "Title (Z-A)" },
     { value: "revenue.desc", label: "Revenue (Highest Grossing)" },
     { value: "revenue.asc", label: "Revenue (Lowest Grossing)" },
   ];
