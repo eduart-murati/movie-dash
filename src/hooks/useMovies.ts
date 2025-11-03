@@ -18,8 +18,8 @@ const useMovies = (movieQuery: MovieQuery, page: number = 1) => {
     endpoint = "/search/movie";
   } 
   // nëse është zgjedhur një listë e veçantë (p.sh. top rated)
-  else if (movieQuery.movielist && movieQuery.movielist.id !== "all") {
-    endpoint = `/movie/${movieQuery.movielist.id}`;
+  else if (movieQuery.movieList && movieQuery.movieList !== "all") {
+    endpoint = `/movie/${movieQuery.movieList }`;
   }
 
   // parametrat që dërgohen tek API

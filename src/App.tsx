@@ -5,14 +5,13 @@ import GenreList from "./components/GenreList";
 import type { Genre } from "./hooks/useGenres";
 import { useState } from "react";
 import MovieListSelector from "./components/MovieListSelector";
-import type { MovieList } from "./hooks/useMovieList";
 import SortSelctor from "./components/SortSelctor";
 
 //https://www.themoviedb.org/
 
 export interface MovieQuery {
   genre: Genre | null;
-  movielist: MovieList | null;
+  movieList: string;
   sortOrder: string;
   searchText: string;
 }
@@ -22,7 +21,7 @@ function App() {
   const [searchText, setSearchText] = useState("");
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({
     genre: null,
-    movielist: null,
+    movieList: "",
     sortOrder: "",
     searchText: "",
   } as MovieQuery);
@@ -47,7 +46,7 @@ function App() {
               ...movieQuery,
               searchText: text,
               genre: null,
-              movielist: null,
+              movieList: "",
             })
           }
         />
@@ -65,8 +64,9 @@ function App() {
       <GridItem area="main">
         <HStack gap={5} paddingLeft={5} marginBottom={5}>
           <MovieListSelector
-            onSelectedMovieList={(movielist) =>
-              setMovieQuery({ ...movieQuery, movielist })
+            movieList={movieQuery.movieList}
+            onSelectedMovieList={(movieList) =>
+              setMovieQuery({ ...movieQuery, movieList })
             }
             isDisabled={!!searchText} // Çaktivizo kur ka kërkim
           />

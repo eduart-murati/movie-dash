@@ -1,36 +1,46 @@
-import useMovieList, { type MovieList } from "@/hooks/useMovieList";
 import { Button, Menu, Portal } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
 
 interface Props {
-  onSelectedMovieList: (movielist: MovieList) => void;
+  onSelectedMovieList: (movieList: string) => void;
+  movieList: string;
   isDisabled?: boolean;
 }
 
-const MovieListSelector = ({ onSelectedMovieList, isDisabled }: Props) => {
-  const { data, error, isLoading } = useMovieList();
+const MovieListSelector = ({
+  onSelectedMovieList,
+  movieList,
+  isDisabled,
+}: Props) => {
+  const movieLists = [
+    { value: "all", label: "All Movies" },
+    { value: "popular", label: "Most Popular" },
+    { value: "top_rated", label: "Top Rated" },
+    { value: "upcoming", label: "Upcoming" },
+    { value: "now_playing", label: "Now Playing" },
+  ];
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const currentMovieList = movieLists.find((list) => list.value === movieList);
 
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button as={Button} size="sm" disabled={isDisabled}>
-          Movie Lists <BsChevronDown />
+          Movie Lists: {currentMovieList?.label || "All Movies"}{" "}
+          <BsChevronDown />
         </Button>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
           <Menu.Content>
-            {data.map((movielist) => (
+            {movieLists.map((list) => (
               <Menu.Item
-                onClick={() => onSelectedMovieList(movielist)}
-                key={movielist.id}
-                value={movielist.name}
+                onClick={() => onSelectedMovieList(list.value)}
+                key={list.value}
+                value={list.value}
                 disabled={isDisabled}
               >
-                {movielist.name}
+                {list.label}
               </Menu.Item>
             ))}
           </Menu.Content>
