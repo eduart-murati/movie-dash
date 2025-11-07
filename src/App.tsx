@@ -1,4 +1,10 @@
-import { Grid, GridItem, HStack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  HStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import MovieGrid from "./components/MovieGrid";
 import GenreList from "./components/GenreList";
@@ -6,6 +12,7 @@ import type { Genre } from "./hooks/useGenres";
 import { useState } from "react";
 import MovieListSelector from "./components/MovieListSelector";
 import SortSelctor from "./components/SortSelctor";
+import MovieHeading from "./components/MovieHeading";
 
 //https://www.themoviedb.org/
 
@@ -62,22 +69,25 @@ function App() {
         </GridItem>
       )}
       <GridItem area="main">
-        <HStack gap={5} paddingLeft={5} marginBottom={5}>
-          <MovieListSelector
-            movieList={movieQuery.movieList}
-            onSelectedMovieList={(movieList) =>
-              setMovieQuery({ ...movieQuery, movieList })
-            }
-            isDisabled={!!searchText} // Çaktivizo kur ka kërkim
-          />
-          <SortSelctor
-            sortOrder={movieQuery.sortOrder}
-            onSelectSortOrder={(sortOrder) =>
-              setMovieQuery({ ...movieQuery, sortOrder })
-            }
-            // isDisabled={!!searchText} // Çaktivizo kur ka kërkim
-          />
-        </HStack>
+        <Box paddingLeft={5}>
+          <MovieHeading movieQuery={movieQuery} />
+          <HStack gap={5} marginBottom={5}>
+            <MovieListSelector
+              movieList={movieQuery.movieList}
+              onSelectedMovieList={(movieList) =>
+                setMovieQuery({ ...movieQuery, movieList })
+              }
+              isDisabled={!!searchText} // Çaktivizo kur ka kërkim
+            />
+            <SortSelctor
+              sortOrder={movieQuery.sortOrder}
+              onSelectSortOrder={(sortOrder) =>
+                setMovieQuery({ ...movieQuery, sortOrder })
+              }
+              // isDisabled={!!searchText} // Çaktivizo kur ka kërkim
+            />
+          </HStack>
+        </Box>
 
         <MovieGrid movieQuery={movieQuery} />
       </GridItem>

@@ -83,8 +83,9 @@ const MovieCard = ({ movie }: Props) => {
             onClick={() => {
               if (trailer) {
                 // Parametrat për dritaren popup
-                const width = 800;
-                const height = 450;
+                const PADDING_BUFFER = 34;
+                const width = 900 + PADDING_BUFFER;
+                const height = 550 + PADDING_BUFFER;
                 const left = (window.innerWidth - width) / 2;
                 const top = (window.innerHeight - height) / 2;
 
