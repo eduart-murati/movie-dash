@@ -24,7 +24,6 @@ const useMovies = (movieQuery: MovieQuery, page: number = 1) => {
 
   // parametrat që dërgohen tek API
   const params: { [key: string]: any } = {
-    include_adult: false,
     language: "en-US",
     page, // marrim page nga hook
   };
