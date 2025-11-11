@@ -10,41 +10,49 @@ export interface Movie {
   vote_count: number;
 }
 
-const useMovies = (movieQuery: MovieQuery, page: number = 1) => {
+interface UseMoviesResult {
+  data: Movie[];
+  totalPages: number;
+  error: any;
+  isLoading: boolean;
+}
+
+const useMovies = (movieQuery: MovieQuery, page: number = 1): UseMoviesResult => {
   let endpoint = "/discover/movie"; // default
 
-  // nëse ka tekst kërkimi, përdor endpoint search
-  if (movieQuery.searchText && movieQuery.searchText.trim() !== "") {
+  // Nëse ka tekst kërkimi
+  if (movieQuery.searchText?.trim() !== "") {
     endpoint = "/search/movie";
-  } 
-  // nëse është zgjedhur një listë e veçantë (p.sh. top rated)
+  }
+  // Nëse është zgjedhur një listë e veçantë
   else if (movieQuery.movieList && movieQuery.movieList !== "all") {
-    endpoint = `/movie/${movieQuery.movieList }`;
+    endpoint = `/movie/${movieQuery.movieList}`;
   }
 
-  // parametrat që dërgohen tek API
+  // Parametrat për API
   const params: { [key: string]: any } = {
+    include_adult: false,
     language: "en-US",
-    page, // marrim page nga hook
+    page,
   };
 
-  // query për kërkim tekstual
-  if (movieQuery.searchText && movieQuery.searchText.trim() !== "") {
-    params.query = movieQuery.searchText;
-  }
+  if (movieQuery.searchText?.trim() !== "") params.query = movieQuery.searchText;
+  if (movieQuery.genre) params.with_genres = movieQuery.genre.id;
+  if (movieQuery.sortOrder) params.sort_by = movieQuery.sortOrder;
 
-  // filtër për genre
-  if (movieQuery.genre) {
-    params.with_genres = movieQuery.genre.id;
-  }
+  // Thirrja e hook-ut të përgjithshëm useData
+  const { data, error, isLoading } = useData<{
+    results: Movie[];
+    total_pages: number;
+  }>(endpoint, { params }, [movieQuery, page]);
 
-  // sortim
-  if (movieQuery.sortOrder) {
-    params.sort_by = movieQuery.sortOrder;
-  }
-
-  // Kthe hook-un e të dhënave
-  return useData<Movie>(endpoint, { params }, [movieQuery, page]);
+  // Kthimi me tip të saktë për MovieGrid dhe Pagination
+  return {
+    data: data?.results || [],
+    totalPages: data?.total_pages || 1,
+    error,
+    isLoading,
+  };
 };
 
 export default useMovies;

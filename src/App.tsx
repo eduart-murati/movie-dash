@@ -33,6 +33,8 @@ function App() {
     searchText: "",
   } as MovieQuery);
 
+  const [page, setPage] = useState(1);
+
   return (
     <Grid
       templateAreas={{
@@ -89,7 +91,7 @@ function App() {
           </HStack>
         </Box>
 
-        <MovieGrid movieQuery={movieQuery} />
+        <MovieGrid movieQuery={movieQuery} page={page} setPage={setPage} />
       </GridItem>
     </Grid>
   );

@@ -1,5 +1,13 @@
 import useGenres, { type Genre } from "@/hooks/useGenres";
-import { Box, VStack, HStack, Icon, Spinner, Button } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  HStack,
+  Icon,
+  Spinner,
+  Button,
+  Heading,
+} from "@chakra-ui/react";
 
 import {
   FaTheaterMasks,
@@ -53,44 +61,50 @@ interface Props {
 }
 
 const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
-  const { data, isLoading, error } = useGenres();
+  const { data = [], isLoading, error } = useGenres();
 
   if (error) return null;
   if (isLoading) return <Spinner />;
 
   return (
     // Përdorim VStack si zëvendësues për List
-    <VStack as="ul" align="stretch">
-      {data.map((genre) => {
-        const isSelected = genre.id === selectedGenre?.id;
-        return (
-          // Përdorim Box si zëvendësues për ListItem, me 'as="li"'
-          <Box as="li" key={genre.id} paddingY="5px">
-            <HStack>
-              <Icon
-                as={genreIconMap[genre.id]}
-                color={isSelected ? "blue.400" : "gray.500"}
-                boxSize="32px"
-                borderRadius={8}
-                transition="color 0.2s ease"
-              />
-              <Button
-                fontWeight={isSelected ? "bold" : "normal"}
-                color={isSelected ? "blue.400" : "gray.500"}
-                onClick={() => onSelectGenre(genre)}
-                fontSize="lg"
-                variant="ghost"
-                _hover={{
-                  textDecoration: "underline",
-                }}
-              >
-                {genre.name}
-              </Button>
-            </HStack>
-          </Box>
-        );
-      })}
-    </VStack>
+    <>
+      <Heading fontSize="3xl" marginBottom={3}>
+        Genres
+      </Heading>
+      <VStack as="ul" align="stretch">
+        {data.map((genre) => {
+          const isSelected = genre.id === selectedGenre?.id;
+          return (
+            // Përdorim Box si zëvendësues për ListItem, me 'as="li"'
+            <Box as="li" key={genre.id} paddingY="1px">
+              <HStack>
+                <Icon
+                  as={genreIconMap[genre.id]}
+                  color={isSelected ? "blue.400" : "gray.500"}
+                  boxSize="32px"
+                  borderRadius={8}
+                  transition="color 0.2s ease"
+                />
+                <Button
+                  whiteSpace={"normal"}
+                  fontWeight={isSelected ? "bold" : "normal"}
+                  color={isSelected ? "blue.400" : "gray.500"}
+                  onClick={() => onSelectGenre(genre)}
+                  fontSize="lg"
+                  variant="ghost"
+                  _hover={{
+                    textDecoration: "underline",
+                  }}
+                >
+                  {genre.name}
+                </Button>
+              </HStack>
+            </Box>
+          );
+        })}
+      </VStack>
+    </>
   );
 };
 
