@@ -1,4 +1,4 @@
-import { Input, InputGroup, Kbd } from "@chakra-ui/react";
+import { Input, InputGroup } from "@chakra-ui/react";
 import { useRef } from "react";
 import type { ChangeEvent } from "react";
 import { LuSearch } from "react-icons/lu";
