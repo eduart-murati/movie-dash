@@ -31,7 +31,6 @@ const useMovies = (movieQuery: MovieQuery, page: number = 1): UseMoviesResult =>
 
   // Parametrat për API
   const params: { [key: string]: any } = {
-    include_adult: false,
     language: "en-US",
     page,
   };
