@@ -11,22 +11,21 @@ interface Props {
 const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
   if (!isOpen) return null;
 
-  // POSITION STATE
+  const isMobile = window.innerWidth < 768;
   const popupRef = useRef<HTMLDivElement>(null);
+
+  // Pozicioni (vetëm për desktop)
   const [position, setPosition] = useState({
     x: window.innerWidth / 2 - 450,
     y: window.innerHeight / 2 - 300,
   });
 
-  // SIZE STATE
-  const [size, setSize] = useState({ width: 900, height: 550 });
-  const minSize = { width: 400, height: 250 };
-
-  // DRAGGING
+  // Drag (desktop)
   const dragOffset = useRef({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
 
   const startDrag = (e: React.MouseEvent) => {
+    if (isMobile) return;
     setDragging(true);
     dragOffset.current = {
       x: e.clientX - position.x,
@@ -35,7 +34,7 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
   };
 
   const duringDrag = (e: MouseEvent) => {
-    if (!dragging) return;
+    if (!dragging || isMobile) return;
     setPosition({
       x: e.clientX - dragOffset.current.x,
       y: e.clientY - dragOffset.current.y,
@@ -44,93 +43,21 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
 
   const stopDrag = () => setDragging(false);
 
-  // RESIZING
-  const [resizing, setResizing] = useState(false);
-  const resizeStart = useRef({ w: 0, h: 0, x: 0, y: 0 });
-
-  const startResize = (e: React.MouseEvent) => {
-    setResizing(true);
-    resizeStart.current = {
-      w: size.width,
-      h: size.height,
-      x: e.clientX,
-      y: e.clientY,
-    };
-  };
-
-  const duringResize = (e: MouseEvent) => {
-    if (!resizing) return;
-    const deltaX = e.clientX - resizeStart.current.x;
-    const deltaY = e.clientY - resizeStart.current.y;
-
-    setSize({
-      width: Math.max(minSize.width, resizeStart.current.w + deltaX),
-      height: Math.max(minSize.height, resizeStart.current.h + deltaY),
-    });
-  };
-
-  const stopResize = () => setResizing(false);
-
-  // ESC CLOSE
-  useEffect(() => {
-    const esc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", esc);
-    return () => document.removeEventListener("keydown", esc);
-  }, []);
-
-  // GLOBAL MOUSE LISTENERS FOR DRAG + RESIZE
   useEffect(() => {
     window.addEventListener("mousemove", duringDrag);
     window.addEventListener("mouseup", stopDrag);
-    window.addEventListener("mousemove", duringResize);
-    window.addEventListener("mouseup", stopResize);
-
     return () => {
       window.removeEventListener("mousemove", duringDrag);
       window.removeEventListener("mouseup", stopDrag);
-      window.removeEventListener("mousemove", duringResize);
-      window.removeEventListener("mouseup", stopResize);
     };
-  });
+  }, [dragging, isMobile]);
 
-  // MINIMIZE STATE
-  const [minimized, setMinimized] = useState(false);
-
-  const toggleMinimize = () => {
-    if (!minimized) {
-      setSize({ width: 300, height: 170 });
-      setPosition({ x: window.innerWidth - 320, y: window.innerHeight - 200 });
-    } else {
-      setSize({ width: 900, height: 550 });
-      setPosition({
-        x: window.innerWidth / 2 - 450,
-        y: window.innerHeight / 2 - 300,
-      });
-    }
-    setMinimized(!minimized);
-  };
-
-  // FULLSCREEN TOGGLE
-  const [fullscreen, setFullscreen] = useState(false);
-
-  const toggleFullscreen = () => {
-    if (!fullscreen) {
-      setSize({
-        width: window.innerWidth - 40,
-        height: window.innerHeight - 40,
-      });
-      setPosition({ x: 20, y: 20 });
-    } else {
-      setSize({ width: 900, height: 550 });
-      setPosition({
-        x: window.innerWidth / 2 - 450,
-        y: window.innerHeight / 2 - 300,
-      });
-    }
-    setFullscreen(!fullscreen);
-  };
+  // ESC për mbyllje
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", esc);
+    return () => document.removeEventListener("keydown", esc);
+  }, [onClose]);
 
   return (
     <div
@@ -139,7 +66,9 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
         inset: 0,
         background: "rgba(0,0,0,0.45)",
         zIndex: 9999,
-        animation: "fadeIn 0.2s",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
       onClick={onClose}
     >
@@ -147,21 +76,20 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
         ref={popupRef}
         style={{
           position: "absolute",
-          left: position.x,
-          top: position.y,
-          width: size.width,
-          height: size.height,
+          left: isMobile ? "5%" : position.x,
+          top: isMobile ? "5%" : position.y,
+          width: isMobile ? "90%" : 900,
+          height: isMobile ? "80%" : 550,
           background: "#000",
           borderRadius: "10px",
           overflow: "hidden",
           boxShadow: "0 0 20px rgba(0,0,0,0.5)",
-          cursor: dragging ? "grabbing" : "default",
-          transition: fullscreen ? "all 0.2s ease" : undefined,
-          animation: "zoomIn 0.15s",
+          cursor: isMobile ? "default" : "grab",
+          transition: "all 0.2s ease",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* HEADER FOR DRAG */}
+        {/* Header */}
         <div
           onMouseDown={startDrag}
           style={{
@@ -172,7 +100,6 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "0 12px",
-            cursor: "grab",
             userSelect: "none",
           }}
         >
@@ -181,26 +108,18 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
               maxWidth: "75%",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
             {title}
           </span>
-
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={toggleMinimize} style={btnStyle}>
-              —
-            </button>
-            <button onClick={toggleFullscreen} style={btnStyle}>
-              ⛶
-            </button>
-            <button onClick={onClose} style={btnStyle}>
-              ✕
-            </button>
-          </div>
+          <button onClick={onClose} style={btnStyle}>
+            ✕
+          </button>
         </div>
 
-        {/* VIDEO */}
-        <div style={{ width: "100%", height: size.height - 40 }}>
+        {/* Player */}
+        <div style={{ width: "100%", height: "calc(100% - 40px)" }}>
           {youtubeKey && (
             <ReactPlayer
               url={`https://www.youtube.com/watch?v=${youtubeKey}`}
@@ -216,31 +135,19 @@ const TrailerPopup = ({ isOpen, onClose, youtubeKey, title }: Props) => {
             />
           )}
         </div>
-
-        {/* RESIZE HANDLE */}
-        <div
-          onMouseDown={startResize}
-          style={{
-            position: "absolute",
-            width: "20px",
-            height: "20px",
-            right: 0,
-            bottom: 0,
-            cursor: "nwse-resize",
-            background: "rgba(255,255,255,0.1)",
-          }}
-        />
       </div>
     </div>
   );
 };
 
+// Butoni ✕
 const btnStyle: React.CSSProperties = {
   background: "transparent",
   border: "none",
   color: "white",
   cursor: "pointer",
-  fontSize: "16px",
+  fontSize: "18px",
+  lineHeight: 1,
 };
 
 export default TrailerPopup;
